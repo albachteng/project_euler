@@ -17,37 +17,27 @@ int main() {
 unsigned long factor(long n) {
   unsigned long curr = n;
   unsigned long root = sqrt(n);
-  if (n == 2) {
-    return 2;
+  if (n == 2 || n == 1 || n == 0) {
+    return n;
   }
-  if (n == 1) {
-    return 1;
-  }
-  if (n == 0) {
-    return 0;
-  }
-  // 2 is a special case because it would fuck up our other loop
+  // even numbers are a special case
+  // if we didn't handle them separately, we would have to get messsy with the
+  // divisor below
   while (curr % 2 == 0) {
     factors[i++] = 2;
     curr /= 2;
     root = sqrt(curr);
   }
-  // for every odd divisor
+  // for every odd divisor:
   for (unsigned divisor = 3; divisor < root; divisor += 2) {
-    // if the current number divides evenly by that divisor
     if (curr % divisor == 0) {
-      // the divisor is a factor, add it to our factors array
       factors[i++] = divisor;
-      // divide current by divisor
       curr /= divisor;
-      // reset the root
       root = sqrt(curr);
-      // reset the divisor to begin the process again
       divisor = 3;
     }
   }
-  // if we reach the root, the current number is a factor of the original (it
-  // may be the only one)
+  // if we reach the root, the current number is also a factor of the original
   factors[i++] = curr;
   int j;
   for (j = 0; j < i; j++) {
@@ -61,9 +51,5 @@ unsigned long factor(long n) {
     }
   }
   printf("\n");
-  // if (factor(max_factor) == 0) {
-  //   return max_factor;
-  // }
-  // return factor(max_factor);
   return max_factor;
 }
